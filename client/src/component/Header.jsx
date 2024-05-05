@@ -35,9 +35,7 @@ export default function Header() {
             <FaMoon />
         </Button>
         <Link to='/sign-in'>
-           <Button className='self-center whitespace-nowrap text-sm sm:text-xl 
-             dark:text-white px-2 py-1 bg-gradient-to-r from-purple-500
-             to-blue-500 rounded-lg text-white'>
+           <Button gradientDuoTone='purpleToBlue' outline >
             Sign In</Button>
         </Link>
         <Navbar.Toggle aria-label="Toggle navigation" aria-expanded={false} />
