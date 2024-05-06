@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'
 import About from './pages/About'
 import Header from './component/Header'
+import Footer from './component/Footer'
 export default function App() {
   return (
     <BrowserRouter >
@@ -20,6 +21,7 @@ export default function App() {
 
 
       </Routes>
+      <Footer />
     
     </BrowserRouter>
   )
