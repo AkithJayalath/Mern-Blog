@@ -4,13 +4,12 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
-
+import { signInStart,signInSuccess,signInFailure } from "../redux/user/userSlice";
 
 export default function SignIn() {
   const [formData,setFormData] = useState({});
-  const {loading,error: errorMessage} = useSelector(state => state.user);
-  const dispatch=useDispatch();
+  const { loading, error: errorMessage}= useSelector(state => state.user);
+  const dispatch= useDispatch();
   const navigate= useNavigate();
   const handleChange=(e) =>{
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -28,10 +27,9 @@ export default function SignIn() {
         body: JSON.stringify(formData),
       });
       const data= await res.json();
-      if (data.success == false){
-        dispatch(signInFailure(data.message));
+      if (data.success === false){
+         dispatch(signInFailure(data.message));
       }
-      
       if(res.ok){
         dispatch(signInSuccess(data));
         navigate('/');
@@ -56,7 +54,7 @@ export default function SignIn() {
             Blog
         </Link>
         <p className="text-sm mt-5">
-          This is a demo project. You can sign in with tour email and password
+          This is a demo project. You can sign in with your email and password
           or with google
         </p>
         </div>
@@ -107,5 +105,5 @@ export default function SignIn() {
         </div>
       </div>
       </div>
-  );
-}
+  )
+};

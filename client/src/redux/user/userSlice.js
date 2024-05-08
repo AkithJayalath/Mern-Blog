@@ -1,7 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { sign } from "jsonwebtoken";
+import { createSlice, current } from "@reduxjs/toolkit";
 
-const intialState = {
+const initialState = {
     currentUser: null,
     error: null,
     loading: false
@@ -10,23 +9,24 @@ const intialState = {
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {
-        signInStart: (sate) => {
-            sate.loading=true;
-            state.error=null;
+    reducers:{
+        signInStart: (state) => {
+            state.loading= true;
+            state.error= null;
         },
 
         signInSuccess: (state, action) => {
-            state.currentUser=action.payload;
-            state.loading=false;
-            state.error=null;
+            state.currentUser= action.payload;
+            state.loading= false;
+            state.error= null;
         },
 
-        signInFailure: (state,action) => {
+        signInFailure: (state, action) => {
             state.loading= false;
-            sate.error= action.payload;
+            state.error= action.payload;
         },
     },
 });
+
 export const { signInStart, signInSuccess, signInFailure} = userSlice.actions;
 export default userSlice.reducer;
