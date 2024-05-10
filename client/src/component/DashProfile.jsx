@@ -237,19 +237,19 @@ uploadTask.on(
         <span onClick={handleSignout} className='cursor-pointer'>Sign Out</span>
       </div>
       {updateUserSuccess && (
-        <Alert color='success' className='mt-5'>
+        <Alert  className=' bg-green-200 text-green-800 mt-5'>
           {updateUserSuccess}
         </Alert>
       )}
 
       {updateUserError && (
-        <Alert color='failure' className='mt-5'>
+        <Alert className=' bg-red-200 text-red-800 mt-5'>
           {updateUserError}
         </Alert>
       )}
 
       {error && (
-        <Alert color='failure' className='mt-5'>
+        <Alert className=' bg-red-200 text-red-800 mt-5'>
           {error}
         </Alert>
       )}
