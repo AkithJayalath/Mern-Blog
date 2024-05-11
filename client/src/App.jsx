@@ -8,6 +8,8 @@ import About from './pages/About'
 import Header from './component/Header'
 import Footer from './component/Footer'
 import PrivateRoute from './component/PrivateRoute'
+import OnlyAdminPrivateRoute from './component/OnlyAdminPrivateRoute'
+import CreatePost from './pages/CreatePost'
 export default function App() {
   return (
     <BrowserRouter >
@@ -19,6 +21,9 @@ export default function App() {
         <Route path="/sign-up" element={<Signup />} />
         <Route element={<PrivateRoute />} >
           <Route path="/dashboard" element={<Dashboard />} />
+        </Route> 
+        <Route element={<OnlyAdminPrivateRoute />} >
+          <Route path="/create-post" element={<CreatePost />} />
         </Route> 
         <Route path="/projects" element={<Projects />} />
 
