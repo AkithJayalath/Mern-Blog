@@ -152,12 +152,12 @@ export default function CreatePost() {
            <Button type='submit'className='hover:bg-gradient-to-r from-purple-500 to-pink-500 bg-pink-500'>
             Publish
            </Button>
-            {publishError && 
+            {publishError && (
                 <Alert className='bg-red-200 text-red-800 mt-5'>
                 {publishError}
                 </Alert>
-            }
+           ) }
         </form>
     </div>
-  )
+  );
 }

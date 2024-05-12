@@ -26,10 +26,10 @@ export default function DashPosts() {
     }
   }, [currentUser._id]);
   return (
-    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
+    <div className='table-auto overflow-x-scroll p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 full-width'>
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
-        <Table hoverable className='shadow-md'>
+        <Table hoverable className='shadow-md table-wrapper'>
         <Table.Head>
             <Table.HeadCell>Date updated</Table.HeadCell>
             <Table.HeadCell>Post title</Table.HeadCell>
@@ -42,8 +42,8 @@ export default function DashPosts() {
           </Table.Head>
           {userPosts.map((post) =>(
             <Table.Body className="divide-y">
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800 text-center">
+                <Table.Cell >{new Date(post.updatedAt).toLocaleDateString()}
                 </Table.Cell>
                 <Table.Cell>
                   <Link to={`/post/${post.slug}`}>

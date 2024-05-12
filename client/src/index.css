@@ -9,3 +9,17 @@ body{
 .ql-editor{
     font-size: 1.05rem;
 }
+
+/* index.css */
+
+/* Add this CSS to your stylesheet */
+.table-auto > .relative > .absolute {
+    display: none;
+}
+.full-width {
+    width: 100%;
+}
+.text-center {
+    text-align: center;
+}
+
