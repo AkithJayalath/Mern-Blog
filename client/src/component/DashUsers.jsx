@@ -76,7 +76,7 @@ export default function DashUsers() {
     <div className='table-auto overflow-x-scroll p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 full-width'>
       {currentUser.isAdmin && users.length > 0 ? (
         <>
-        <Table hoverable className='shadow-md table-wrapper'>
+        <Table hoverable className='shadow-md '>
         <Table.Head className='text-center' >
             <Table.HeadCell>DATE CREATED</Table.HeadCell>
             <Table.HeadCell>USER IMAGE</Table.HeadCell>
