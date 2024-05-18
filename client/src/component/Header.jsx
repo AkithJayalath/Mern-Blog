@@ -62,7 +62,7 @@ export default function Header() {
         >
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500
             via-purple-500 to-pink-500 rounded-lg text-white'>
-             Sahand's
+             Akith's
              </span>
             Blog
         </Link>
@@ -80,8 +80,8 @@ export default function Header() {
         <AiOutlineSearch />
        </Button>
        <div className="flex gap-2 items-center justify-center md:order-2">
-        <Button className='w-10 h-10 flex items-center justify-center self-center' color='gray' onClick={() => dispatch(toggleTheme())} >
-            {theme === 'light' ? <FaMoon /> : <FaSun />}
+        <Button className='w-10 h-10 flex items-center justify-center self-center dark:bg-gray-700 bg-gray-200' color onClick={() => dispatch(toggleTheme())} >
+            {theme === 'light' ? <FaSun /> : <FaMoon />}
         </Button>
         {currentUser ? (
             <Dropdown 
@@ -113,25 +113,19 @@ export default function Header() {
         )
         }
        
-        <Navbar.Toggle aria-label="Toggle navigation" aria-expanded={false} />
-       </div>
-       <Navbar.Collapse>
-            <Navbar.Link active={path === "/"} as={'div'}>
-                <Link to='/' >
-                    Home
-                </Link>
-            </Navbar.Link>
-            <Navbar.Link active={path === "/about"} as={'div'}>
-                <Link to='/about'>
-                    About
-                </Link>
-            </Navbar.Link>
-            <Navbar.Link active={path === "/projects"} as={'div'}>
-                <Link to='/projects'>
-                    Projects
-                </Link>
-            </Navbar.Link>
-        </Navbar.Collapse>
+       <Navbar.Toggle />
+      </div>
+      <Navbar.Collapse>
+        <Navbar.Link active={path === '/'} as={'div'} >
+          <Link to='/'>Home</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === '/about'} as={'div'}>
+          <Link to='/about'>About</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === '/projects'} as={'div'}>
+          <Link to='/projects'>Projects</Link>
+        </Navbar.Link>
+      </Navbar.Collapse>
     </Navbar>
   );
 }
