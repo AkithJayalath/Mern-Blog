@@ -53,3 +53,42 @@ body{
     color: red;
 }
 
+.navbar-toggle span {
+  display: none;
+}
+
+
+
+.list-none {
+  list-style-type: none;
+}
+
+/* Ensures that all list items within Navbar have no list markers */
+.navbar-collapse ul, .navbar-collapse li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+/*optional*/
+/* index.css */
+
+.navbar-collapse ul, .navbar-collapse li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-collapse a {
+  text-decoration: none;
+}
+
+.navbar-collapse .active-link {
+  color: black !important; /* Ensures the active link is black in light mode */
+}
+
+.navbar-collapse .inactive-link {
+  color: #4B5563; /* Tailwind's gray-700 */
+}
