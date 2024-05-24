@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import Ad from '../models/ad.model.js';
+import { query } from 'express';
 
 
 
@@ -42,4 +43,42 @@ export const createad = async (req, res, next) =>{
         next(error);
     }
 
+};
+
+export const getads = async (req, res, next) => {
+    try{
+        const startIndex = parseInt(req.query.startIndex) || 0;
+        const limit = parseInt(req,query.limit) || 9;
+        const sortDirection = req.query.order === 'asc' ? 1 : -1;
+
+        const ads = await Ad.find({
+            ...(req.query.userId && { userId: req.query.userId}),
+            ...(req.query.adSlug && { adSlug: req.query.adSlug}),
+            ...(req.query.image && { image: req.query.image}),
+            ...(req.query.adId && { _id: req.query.adId}),
+    }).sort({ updatedAt: sortDirection}).skip(startIndex).limit(limit);
+
+        const totalAds= await Ad.countDocuments();
+
+        const now= new Date();
+
+        const oneMonthAgo = new Date(
+        now.getFullYear(),
+        now.getMonth() - 1,
+        now.getDate()
+
+    );
+
+    const lastMonthAds = await Ad.countDocuments({
+        createdAt: {$gte: oneMonthAgo},
+    });
+
+    res.status(200).json({
+        ads,
+        totalAds,
+        lastMonthAds,
+    });
+    }catch (error){
+        next(error);
+    }
 };

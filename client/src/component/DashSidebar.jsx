@@ -6,6 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { FaAd } from "react-icons/fa";
 
 
 export default function DashSidebar() {
@@ -72,6 +73,18 @@ export default function DashSidebar() {
                     as='div'
                   >
                       Posts
+                    </Sidebar.Item>
+                </Link>
+                )}
+
+                {currentUser.isAdmin && (
+                  <Link to='/dashboard?tab=ads'>
+                  <Sidebar.Item
+                    active={tab === 'ads'}
+                    icon={FaAd}
+                    as='div'
+                  >
+                      Ads
                     </Sidebar.Item>
                 </Link>
                 )}
