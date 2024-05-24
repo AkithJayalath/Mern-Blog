@@ -52,11 +52,38 @@ export default function CreateAd() {
             setImageUploadProgress(null);
             console.log(error);
         }
-    }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            const res = await fetch('/api/ad/createad',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(formData),
+
+            });
+            const data = await res.json();
+          if (!res.ok) {
+            setPublishError(data.message);
+            return;
+          }
+    
+          if (res.ok) {
+            setPublishError(null);
+            navigate(`/ad/${data.adSlug}`);
+          }
+        }catch (error) {
+            setPublishError('Something went wrong');
+          }
+    };
+
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
         <h1 className="text-center text-3xl my-7 font-semibold">Create an ad</h1>
-        <form className="">
+        <form onSubmit={handleSubmit}>
         <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
                 <FileInput 
                     type='file' 
@@ -98,6 +125,15 @@ export default function CreateAd() {
                     className='w-full h-72 object-cover'
                 />
             )}
+
+            <Button type='submit'className='hover:bg-gradient-to-r from-purple-500 to-pink-500 bg-pink-500'>
+            Publish
+           </Button>
+            {publishError && (
+                <Alert className='bg-red-200 text-red-800 mt-5'>
+                {publishError}
+                </Alert>
+           ) }
 
         </form>
     </div>
