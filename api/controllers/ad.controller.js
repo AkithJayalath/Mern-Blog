@@ -82,3 +82,34 @@ export const getads = async (req, res, next) => {
         next(error);
     }
 };
+
+
+export const deletead = async (req,res,next) =>{
+    if(!req.user.isAdmin || req.user.id !== req.params.userId){
+        return next(errorHandler(403,'You are not allowed to delete this ad'));
+    }
+
+    try{
+        await Ad.findByIdAndDelete(req.params.adId);
+        res.status(200).json('The post has been deleted');
+
+    }catch (error){
+        next(error);
+    }
+};
+
+export const updatead = async (req, res, next) => {
+    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+        return next(errorHandler(403, 'You are not allowed to update this ad'));
+      }
+      try {
+        const updatedAd = await Ad.findByIdAndUpdate(
+          req.params.adId,
+          {$set:req.body},
+          { new: true }
+        );
+        res.status(200).json(updatedAd);
+      } catch (error) {
+        next(error);
+      }
+};

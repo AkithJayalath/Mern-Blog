@@ -1,12 +1,14 @@
 //import React from 'react'
 import { Alert, Button, FileInput} from 'flowbite-react'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 import { CircularProgressbar} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 export default function CreateAd() {
     const [file, setFile] = useState(null);
@@ -14,7 +16,32 @@ export default function CreateAd() {
     const [imageUploadError, setImageUploadError] = useState(null);
     const [formData, setFormData] = useState({});
     const [publishError, setPublishError] = useState(null);
+    const {adId} = useParams();
     const navigate = useNavigate();
+    const {currentUser} = useSelector((state) => state.user);
+
+    useEffect(() =>{
+        try{
+            const fetchAd = async () => {
+                const res = await fetch(`/api/ad/getads?adId=${adId}`);
+                const data = await res.json();
+                if (!res.ok) {
+                  console.log(data.message);
+                  setPublishError(data.message);
+                  return;
+                }
+                if (res.ok) {
+                  setPublishError(null);
+                  setFormData(data.ads[0]);
+                }
+              };
+        
+              fetchAd();
+        }catch (error){
+            console.log(error.message);
+        }
+
+    }, [adId]);
 
     const handleUploadImage= async () =>{
         try{
@@ -27,6 +54,7 @@ export default function CreateAd() {
             const fileName = new Date().getTime() + '-' + file.name;
             const storageRef = ref(storage,fileName);
             const uploadTask = uploadBytesResumable(storageRef, file);
+
             uploadTask.on(
                 'state_changed',
                 (snapshot) => {
@@ -55,16 +83,15 @@ export default function CreateAd() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const res = await fetch('/api/ad/createad',{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(formData),
-
-            });
-            const data = await res.json();
+        try {
+          const res = await fetch(`/api/ad/updatead/${formData._id}/${currentUser._id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+          const data = await res.json();
           if (!res.ok) {
             setPublishError(data.message);
             return;
@@ -74,14 +101,15 @@ export default function CreateAd() {
             setPublishError(null);
             navigate(`/ad/${data.adSlug}`);
           }
-        }catch (error) {
-            setPublishError('Something went wrong');
-          }
-    };
+        } catch (error) {
+            console.error('Error:', error.message);
+          setPublishError('Something went wrong');
+        }
+      };
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
-        <h1 className="text-center text-3xl my-7 font-semibold">Create an ad</h1>
+        <h1 className="text-center text-3xl my-7 font-semibold">Update ad</h1>
         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
                 <FileInput 
@@ -126,8 +154,9 @@ export default function CreateAd() {
             )}
 
             <Button type='submit'className='hover:bg-gradient-to-r from-purple-500 to-pink-500 bg-pink-500'>
-            Publish
-           </Button>
+            Update ad
+            </Button>
+          
             {publishError && (
                 <Alert className='bg-red-200 text-red-800 mt-5'>
                 {publishError}
