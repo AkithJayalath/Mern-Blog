@@ -72,7 +72,7 @@ export default function CreateAd() {
     
           if (res.ok) {
             setPublishError(null);
-            navigate(`/ad/${data.adSlug}`);
+            navigate('/dashboard?tab=ads');
           }
         }catch (error) {
             setPublishError('Something went wrong');

@@ -48,7 +48,7 @@ export const createad = async (req, res, next) =>{
 export const getads = async (req, res, next) => {
     try{
         const startIndex = parseInt(req.query.startIndex) || 0;
-        const limit = parseInt(req,query.limit) || 9;
+        const limit = parseInt(req.query.limit) || 9;
         const sortDirection = req.query.order === 'asc' ? 1 : -1;
 
         const ads = await Ad.find({
@@ -103,10 +103,12 @@ export const updatead = async (req, res, next) => {
         return next(errorHandler(403, 'You are not allowed to update this ad'));
       }
       try {
+        const adSlug = req.body.adSlug || createAdSlug();
+
         const updatedAd = await Ad.findByIdAndUpdate(
-          req.params.adId,
-          {$set:req.body},
-          { new: true }
+            req.params.adId,
+            { $set: { ...req.body, adSlug } },
+            { new: true }
         );
         res.status(200).json(updatedAd);
       } catch (error) {

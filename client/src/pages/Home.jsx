@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import CallToAction from '../component/CallToAction';
 import { useEffect, useState } from 'react';
 import PostCard from '../component/PostCard';
+import AdCard from '../component/AdCard';
 
 export default function Home() {
 
   const [posts, setPosts] = useState([]);
+  const [ads, setAds] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -14,11 +16,18 @@ export default function Home() {
       const data = await res.json();
       setPosts(data.posts);
     };
+
+    const fetchAds = async () => {
+      const res = await fetch('/api/ad/getAds?limit=2');
+      const data = await res.json();
+      setAds(data.ads);
+    };
     fetchPosts();
+    fetchAds();
   }, []);
 
   return (
-    <div>
+    <div className='flex flex-col gap-2'>
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto ">
         <h1 className="text-3xl font-bold lg:text-6xl">Welcome to my Blog</h1>
         <p className="text-gray-500 text-xs sm:text-sm">Here you'll find a variety of articles and tutorials on topics such as
@@ -29,6 +38,22 @@ export default function Home() {
         >
           View all posts
         </Link>
+      </div>
+
+      <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7 border-2'>
+        {
+          ads && ads.length > 0 && (
+            <div className='flex flex-col gap-6'>
+              <h2 className='text-2xl font-semibold text-center'>Advertisments</h2>
+              <div className='flex flex-wrap gap-4'>
+              {ads.map((ad) => (
+                <AdCard key={ad._id} ad={ad} />
+              ))}
+              </div>
+
+            </div>
+
+          )}
       </div>
       <div className='p-3 bg-amber-100 dark:bg-slate-700'>
         <CallToAction />
