@@ -92,7 +92,9 @@ export default function UpdatePost() {
             },
             body: JSON.stringify(formData),
           });
+          
           const data = await res.json();
+          console.log('Update response:', data);
           if (!res.ok) {
             setPublishError(data.message);
             return;

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import Ad from '../models/ad.model.js';
-import { query } from 'express';
+
 
 
 
@@ -99,10 +99,13 @@ export const deletead = async (req,res,next) =>{
 };
 
 export const updatead = async (req, res, next) => {
+    console.log('Request Params:', req.params); // Log request params
+        console.log('Request Body:', req.body); // Log request body
     if (!req.user.isAdmin || req.user.id !== req.params.userId) {
         return next(errorHandler(403, 'You are not allowed to update this ad'));
-      }
-      try {
+    }
+    try {
+        
         const adSlug = req.body.adSlug || createAdSlug();
 
         const updatedAd = await Ad.findByIdAndUpdate(
@@ -110,8 +113,9 @@ export const updatead = async (req, res, next) => {
             { $set: { ...req.body, adSlug } },
             { new: true }
         );
+         console.log('Updated Ad:', updatedAd);
         res.status(200).json(updatedAd);
-      } catch (error) {
+    } catch (error) {
         next(error);
-      }
+    }
 };

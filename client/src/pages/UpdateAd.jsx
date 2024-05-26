@@ -10,7 +10,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 
-export default function CreateAd() {
+export default function UpdateAd() {
     const [file, setFile] = useState(null);
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(null);
@@ -25,6 +25,7 @@ export default function CreateAd() {
             const fetchAd = async () => {
                 const res = await fetch(`/api/ad/getads?adId=${adId}`);
                 const data = await res.json();
+                console.log('Fetched ad data:', data);
                 if (!res.ok) {
                   console.log(data.message);
                   setPublishError(data.message);
@@ -32,6 +33,7 @@ export default function CreateAd() {
                 }
                 if (res.ok) {
                   setPublishError(null);
+                  console.log('Setting formData:', data.ads[0]);
                   setFormData(data.ads[0]);
                 }
               };
@@ -83,6 +85,8 @@ export default function CreateAd() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Submitting formData:", formData);
+        console.log(`Sending request to: /api/ad/updatead/${formData._id}/${currentUser._id}`); 
         try {
           const res = await fetch(`/api/ad/updatead/${formData._id}/${currentUser._id}`, {
             method: 'PUT',
@@ -90,8 +94,11 @@ export default function CreateAd() {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
+            
           });
+          
           const data = await res.json();
+          console.log('Update response:', data);
           if (!res.ok) {
             setPublishError(data.message);
             return;
