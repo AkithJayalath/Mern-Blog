@@ -11,9 +11,11 @@ import PrivateRoute from './component/PrivateRoute'
 import OnlyAdminPrivateRoute from './component/OnlyAdminPrivateRoute'
 import CreatePost from './pages/CreatePost'
 import UpdatePost from './pages/UpdatePost'
+import UpdateAd from './pages/UpdateAd'
 import PostPage from './pages/PostPage'
 import ScrollToTop from './component/ScrollToTop'
 import Search from './pages/Search'
+import CreateAd from './pages/CreateAd'
 export default function App() {
   return (
     <BrowserRouter >
@@ -30,7 +32,9 @@ export default function App() {
         </Route> 
         <Route element={<OnlyAdminPrivateRoute />} >
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/create-ad" element={<CreateAd />} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
+          <Route path="/update-ad/:adId" element={<UpdateAd />} />
         </Route> 
         <Route path="/projects" element={<Projects />} />
         <Route path="/post/:postSlug" element={<PostPage />} />

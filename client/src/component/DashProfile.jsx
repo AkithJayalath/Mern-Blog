@@ -250,6 +250,22 @@ uploadTask.on(
             
           )
         }
+
+
+{
+          currentUser.isAdmin && (
+            <Link to={'/create-ad'}>
+            <Button 
+              type='button' 
+              className='w-full bg-gradient-to-r from-green-500
+             to-green-300 hover:bg-green-800'
+            >
+              Create an ad
+            </Button>
+            </Link>
+            
+          )
+        }
       </form>
       <div className='text-red-500 flex justify-between mt-5'>
         <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span>

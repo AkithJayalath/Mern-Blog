@@ -1,22 +1,48 @@
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react'
-import { useState } from 'react';
-import ReactQuill from 'react-quill';
+//import React from 'react'
+import { Alert, Button, FileInput} from 'flowbite-react'
+import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 import { CircularProgressbar} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import {useNavigate} from 'react-router-dom';
-//import React from 'react'
+import {useNavigate, useParams} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
-export default function CreatePost() {
+export default function CreateAd() {
     const [file, setFile] = useState(null);
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(null);
     const [formData, setFormData] = useState({});
     const [publishError, setPublishError] = useState(null);
+    const {adId} = useParams();
     const navigate = useNavigate();
+    const {currentUser} = useSelector((state) => state.user);
+
+    useEffect(() =>{
+        try{
+            const fetchAd = async () => {
+                const res = await fetch(`/api/ad/getads?adId=${adId}`);
+                const data = await res.json();
+                if (!res.ok) {
+                  console.log(data.message);
+                  setPublishError(data.message);
+                  return;
+                }
+                if (res.ok) {
+                  setPublishError(null);
+                  setFormData(data.ads[0]);
+                }
+              };
+        
+              fetchAd();
+        }catch (error){
+            console.log(error.message);
+        }
+
+    }, [adId]);
+
     const handleUploadImage= async () =>{
         try{
             if(!file){
@@ -28,6 +54,7 @@ export default function CreatePost() {
             const fileName = new Date().getTime() + '-' + file.name;
             const storageRef = ref(storage,fileName);
             const uploadTask = uploadBytesResumable(storageRef, file);
+
             uploadTask.on(
                 'state_changed',
                 (snapshot) => {
@@ -52,13 +79,13 @@ export default function CreatePost() {
             setImageUploadProgress(null);
             console.log(error);
         }
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const res = await fetch('/api/post/create', {
-            method: 'POST',
+          const res = await fetch(`/api/ad/updatead/${formData._id}/${currentUser._id}`, {
+            method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
             },
@@ -72,39 +99,23 @@ export default function CreatePost() {
     
           if (res.ok) {
             setPublishError(null);
-            navigate(`/post/${data.slug}`);
+            navigate(`/ad/${data.adSlug}`);
           }
         } catch (error) {
+            console.error('Error:', error.message);
           setPublishError('Something went wrong');
         }
       };
+
   return (
-    <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-        <h1 className='text-center text-3xl my-7 font-semibold'>
-            Create a post
-        </h1>
+    <div className="p-3 max-w-3xl mx-auto min-h-screen">
+        <h1 className="text-center text-3xl my-7 font-semibold">Update ad</h1>
         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-            <div className='flex flex-col gap-4 sm:flex-row justify-between'>
-                <TextInput 
-                    type='text'
-                    placeholder='Title required' 
-                    required id='title' 
-                    className='flex-1'
-                    onChange={(e) => setFormData({ ...formData,title: e.target.value})}
-                />
-                <Select
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value})}
-                >
-                    <option value='uncategorized'>Select a category</option>
-                    <option value='javascript'>JavaScript</option>
-                    <option value='reactjs'>React.js</option>
-                    <option value='nextjs'>Next.js</option>
-                </Select>
-            </div>
-            <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
+        <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
                 <FileInput 
                     type='file' 
                     accept='image/*' 
+                    required id='ad' 
                     onChange={(e)=>setFile(e.target.files[0])}
                 />
                 <Button 
@@ -141,23 +152,18 @@ export default function CreatePost() {
                     className='w-full h-72 object-cover'
                 />
             )}
-           <ReactQuill 
-                theme='snow' 
-                placeholder='Write something...' 
-                className='h-72 mb-12'
-                required
-                onChange={(value) => {setFormData({...formData, content: value });
-            }}
-            />
-           <Button type='submit'className='hover:bg-gradient-to-r from-purple-500 to-pink-500 bg-pink-500'>
-            Create
-           </Button>
+
+            <Button type='submit'className='hover:bg-gradient-to-r from-purple-500 to-pink-500 bg-pink-500'>
+            Update ad
+            </Button>
+          
             {publishError && (
                 <Alert className='bg-red-200 text-red-800 mt-5'>
                 {publishError}
                 </Alert>
            ) }
+
         </form>
     </div>
-  );
+  )
 }
