@@ -228,10 +228,10 @@ uploadTask.on(
         placeholder='password' 
         onChange={handleChange}
         />
-        <Button 
-          type='submit' 
-          className='bg-gradient-to-r from-indigo-500
-            via-purple-500 to-pink-500 '
+         <Button
+          type='submit'
+          gradientDuoTone='purpleToBlue'
+          outline
           disabled={loading || imageFileUploading}
         >
           {loading ? 'Loading...' : 'Update'}
@@ -239,10 +239,10 @@ uploadTask.on(
         {
           currentUser.isAdmin && (
             <Link to={'/create-post'}>
-            <Button 
-              type='button' 
-              className='w-full bg-gradient-to-r from-indigo-500
-            via-purple-500 to-pink-500 '
+            <Button
+              type='button'
+              gradientDuoTone='purpleToPink'
+              className='w-full'
             >
               Create a post
             </Button>
@@ -255,10 +255,10 @@ uploadTask.on(
 {
           currentUser.isAdmin && (
             <Link to={'/create-ad'}>
-            <Button 
-              type='button' 
-              className='w-full bg-gradient-to-r from-green-500
-             to-green-300 hover:bg-green-800'
+            <Button
+              type='button'
+              gradientDuoTone='purpleToBlue'
+              className='w-full'
             >
               Create an ad
             </Button>
@@ -294,22 +294,22 @@ uploadTask.on(
              size='sm'
       >
         <Modal.Header />
-          <Modal.Body>
-              <div className="text-center">
-                <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
-                <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
-                  Are you sure you want to delete your account?
-                </h3>
-                <div className='flex justify-center gap-4'>
-                  <Button className='bg-red-500 py-1 px-3 ' onClick={handleDeleteUser}>
-                    Yes, I'm sure
-                  </Button>
-                  <Button color='gray' className='py-1 px-3 ' onClick={()=> setShowModal(false)}>
-                    No, cancel
-                  </Button>
-                </div>
-              </div>
-          </Modal.Body>
+        <Modal.Body>
+          <div className='text-center'>
+            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
+            <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
+              Are you sure you want to delete your account?
+            </h3>
+            <div className='flex justify-center gap-4'>
+              <Button color='failure' onClick={handleDeleteUser}>
+                Yes, I'm sure
+              </Button>
+              <Button color='gray' onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
       </Modal>
     </div>
   );

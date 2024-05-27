@@ -50,7 +50,7 @@ export default function SignIn() {
         >
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500
             via-purple-500 to-pink-500 rounded-lg text-white'>
-             Sahand's
+             Akith's
              </span>
             Blog
         </Link>
@@ -78,8 +78,11 @@ export default function SignIn() {
                 id="password" 
                 style={{width:'398px'}} onChange={handleChange}/>
             </div>
-            <Button type="submit" className="px-2 py-1 bg-gradient-to-r from-indigo-500
-            via-purple-500 to-pink-500 rounded-lg text-white" disabled={loading}>
+            <Button
+              gradientDuoTone='purpleToPink'
+              type='submit'
+              disabled={loading}
+            >
               {
                 loading ? (
                   <>

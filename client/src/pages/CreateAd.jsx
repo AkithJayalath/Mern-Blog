@@ -90,13 +90,14 @@ export default function CreateAd() {
                     required id='ad' 
                     onChange={(e)=>setFile(e.target.files[0])}
                 />
-                <Button 
-                    type='button' 
-                    className='hover:bg-gradient-to-r from-purple-500 to-blue-500 py-8 px-4 border-2 border-blue-500 text-black hover:text-white dark:text-white hover:border-transparent'  
-                    size='sm'
-                    onClick={handleUploadImage}
-                    disabled={imageUploadProgress}
-                >
+                <Button
+            type='button'
+            gradientDuoTone='purpleToBlue'
+            size='sm'
+            outline
+            onClick={handleUploadImage}
+            disabled={imageUploadProgress}
+          >
                     {
                         imageUploadProgress ? (
                         <div className='w-16 h-16'>
@@ -111,11 +112,7 @@ export default function CreateAd() {
                     }
                 </Button>
             </div>
-            {imageUploadError && 
-                <Alert className='bg-red-200 text-red-800'>
-                    {imageUploadError}
-                </Alert>
-            }
+            {imageUploadError && <Alert color='failure'>{imageUploadError}</Alert>}
 
             {formData.image && (
                 <img
@@ -125,13 +122,13 @@ export default function CreateAd() {
                 />
             )}
 
-            <Button type='submit'className='hover:bg-gradient-to-r from-purple-500 to-pink-500 bg-pink-500'>
-            Publish
-           </Button>
-            {publishError && (
-                <Alert className='bg-red-200 text-red-800 mt-5'>
-                {publishError}
-                </Alert>
+<Button type='submit' gradientDuoTone='purpleToPink'>
+          Publish
+        </Button>
+        {publishError && (
+          <Alert className='mt-5' color='failure'>
+            {publishError}
+          </Alert>
            ) }
 
         </form>
